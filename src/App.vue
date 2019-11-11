@@ -47,7 +47,7 @@ export default {
     showDialog() {
       this.$dialog
         .alert({
-          icon: '/icon.png',
+          icon: require('./assets/icon.png'),
           title: "This's Title",
           content: 'Prompt text.\nPrompt text.'
         })

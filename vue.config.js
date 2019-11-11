@@ -5,7 +5,9 @@ module.exports = {
   productionSourceMap: false,
   runtimeCompiler: true,
   // 预防打包错误
-  publicPath: '/Dialog-vue/dist/',
+  publicPath: process.env.NODE_ENV === 'production'
+    ? '/Dialog-vue/dist/'
+    : '/',
   css: {
     loaderOptions: {
       postcss: {

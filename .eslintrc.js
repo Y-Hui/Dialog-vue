@@ -15,6 +15,7 @@ module.exports = {
     '@vue/airbnb',
   ],
   rules: {
+    "comma-dangle": 0,
     'no-console': 'off',
     "global-require": 0,
     "semi": ["error", "never"],
