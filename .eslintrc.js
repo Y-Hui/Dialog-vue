@@ -15,6 +15,7 @@ module.exports = {
     '@vue/airbnb',
   ],
   rules: {
+    'no-console': 'off',
     "global-require": 0,
     "semi": ["error", "never"],
     "semi-spacing": ["error", { "before": false, "after": true }],
