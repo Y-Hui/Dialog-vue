@@ -1,7 +1,11 @@
 # 使用 Vue 封装的弹窗组件
 > 一个微小的组件，代码质量并不高，未能实现最佳。（因为菜）
 
-## 函数式调用
+[English Doc](/README.md)
+
+[在线预览](https://y-hui.github.io/Dialog-vue/dist/)
+
+函数式调用
 
 注册组件
 ```javascript
