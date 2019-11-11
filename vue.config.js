@@ -5,7 +5,7 @@ module.exports = {
   productionSourceMap: false,
   runtimeCompiler: true,
   // 预防打包错误
-  publicPath: './',
+  publicPath: '/dist/',
   css: {
     loaderOptions: {
       postcss: {
