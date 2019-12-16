@@ -1,0 +1,6 @@
+build/*
+dist/*
+dist-production/*
+node_modules/*
+public/*
+example/*

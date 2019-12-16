@@ -1,11 +1,8 @@
 <template>
-  <div class="dialog-wrap" @touchmove.prevent>
-    <transition name="fade">
-      <div class="mask" v-if="showDialog" @click="cancel"></div>
-    </transition>
-    <transition name="zoomIn">
-      <div class="dialog" v-if="showDialog">
-        <!-- 图片图标 -->
+  <transition name="fade">
+    <div class="dialog-wrap" v-if="showDialog" @click="cancel" @touchmove.prevent>
+      <div class="dialog">
+        <!-- icon -->
         <img class="dialog__img-icon" v-if="icon" :src="icon" />
         <h4 class="dialog__title" v-if="title">{{title}}</h4>
         <slot>
@@ -25,8 +22,8 @@
           >{{confirmText}}</button>
         </div>
       </div>
-    </transition>
-  </div>
+    </div>
+  </transition>
 </template>
 
 <script>
@@ -34,32 +31,35 @@ let timer
 
 export default {
   name: 'Dialog',
+  model: {
+    prop: 'value',
+    event: 'changeDisplay'
+  },
   props: {
     value: {
       type: Boolean
     },
-    // 图标链接
+    // icon url
     icon: {
       type: String
     },
-    // 标题文字
     title: {
       type: String
     },
-    // 弹窗内容
     content: {
       type: String
     },
-    // 是否显示取消按钮
+    // Whether to show the cancel button
     showCancel: {
       type: Boolean,
       default: false
     },
-    // 按钮文本
+    // Confirm button text
     confirmText: {
       type: String,
       default: 'Confirm'
     },
+    // Cancel button text
     cancelText: {
       type: String,
       default: 'Cancel'
@@ -71,8 +71,8 @@ export default {
       resolve: Function,
       reject: Function,
       promise: Promise,
-      noCatch: false, // 不需要取消事件的回调
-      functionCall: false // 是否为函数调用
+      noCatch: false, // this.$dialog.alert
+      functionCall: false // is function call ($dialog)
     }
   },
   mounted() {
@@ -85,11 +85,11 @@ export default {
       this.showDialog = status
     },
     showDialog(dialogStatus) {
-      this.$emit('input', dialogStatus)
+      this.$emit('changeDisplay', dialogStatus)
     }
   },
   methods: {
-    // 初始化弹窗(函数调用)
+    // function call
     init() {
       this.functionCall = true
       this.showDialog = true
@@ -99,9 +99,7 @@ export default {
       })
       return this.promise
     },
-    // 确认事件
     confirm() {
-      // 函数调用时需要销毁组件
       if (this.functionCall) {
         this.showDialog = false
         this.resolve('confirm')
@@ -110,12 +108,10 @@ export default {
         this.$emit('confirm')
       }
     },
-    // 取消事件
     cancel() {
-      // 函数调用时需要销毁组件
       if (this.functionCall) {
         this.showDialog = false
-        // 默认添加取消事件回调
+        // Cancel event included by default
         if (this.noCatch === false) {
           this.reject('cancel')
         }
@@ -125,7 +121,6 @@ export default {
         this.$emit('cancel')
       }
     },
-    // 移除 DOM 节点
     remove() {
       timer = setTimeout(() => {
         this.$destroy()
@@ -133,7 +128,7 @@ export default {
       }, 300)
     }
   },
-  destroyed() {
+  beforeDestroy() {
     if (this.functionCall) {
       document.body.removeChild(this.$el)
     }
@@ -143,7 +138,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.mask {
+.dialog-wrap {
   position: fixed;
   top: 0;
   right: 0;
@@ -213,17 +208,23 @@ export default {
 
 .fade-enter-active {
   animation: fade 0.25s ease-out;
+  .dialog {
+    animation: zoomIn 0.2s ease-out forwards;
+  }
 }
 .fade-leave-active {
   animation: fade 0.25s ease-out reverse;
+  .dialog {
+    animation: zoomIn 0.2s ease-out reverse forwards;
+  }
 }
 
-.zoomIn-enter-active {
-  animation: zoomIn 0.2s ease-out;
-}
-.zoomIn-leave-active {
-  animation: zoomIn 0.2s ease-out reverse;
-}
+// .zoomIn-enter-active {
+//   animation: zoomIn 0.2s ease-out;
+// }
+// .zoomIn-leave-active {
+//   animation: zoomIn 0.2s ease-out reverse;
+// }
 
 @keyframes fade {
   from {

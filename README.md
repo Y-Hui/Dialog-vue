@@ -5,7 +5,7 @@ This is the dialog component, built using Vue.
 
 [中文文档](/README_zh-CN.md)
 
-[Preview](https://y-hui.github.io/Dialog-vue/dist/)
+[Preview](https://y-hui.github.io/Dialog-vue/example/)
 
 Function Call
 

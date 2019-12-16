@@ -3,7 +3,7 @@
 
 [English Doc](/README.md)
 
-[在线预览](https://y-hui.github.io/Dialog-vue/dist/)
+[在线预览](https://y-hui.github.io/Dialog-vue/example/)
 
 函数式调用
 
