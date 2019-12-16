@@ -4,9 +4,8 @@ const pxtoviewport = require('postcss-px-to-viewport')
 module.exports = {
   productionSourceMap: false,
   runtimeCompiler: true,
-  // 预防打包错误
   publicPath: process.env.NODE_ENV === 'production'
-    ? '/Dialog-vue/dist/'
+    ? '/Dialog-vue/example/'
     : '/',
   css: {
     loaderOptions: {
