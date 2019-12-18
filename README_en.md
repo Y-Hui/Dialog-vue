@@ -65,11 +65,6 @@ Dialog.confirm({
 ```
 
 ## Component call
-
-```javascript
-import Dialog from 'Dialog/Dialog.vue'
-```
-
 ```html
 <Dialog
   v-model="dialogStatus"
