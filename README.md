@@ -1,67 +1,92 @@
-# Dialog-vue
-This is the dialog component, built using Vue.
+# 使用 Vue 封装的弹窗组件
+> 一个微小的组件，代码质量并不高，未能实现最佳。（因为菜）
 
-> A tiny component, the code quality is not high, and it is not optimal.（Because it is a rookie）
+[English Doc](/README_en.md)
 
-[中文文档](/README_zh-CN.md)
+[在线预览](https://y-hui.github.io/Dialog-vue/example/)
 
-[Preview](https://y-hui.github.io/Dialog-vue/example/)
-
-Function Call
-
-Registration component
+注册组件
 ```javascript
 import Dialog from 'Dialog/index'
 Vue.use(Dialog)
 ```
 
-Alert
+## 函数式调用
+若向函数内传递的值为字符串类型，默认解析为`content`
+
+警告弹窗
 ```javascript
+this.$dialog.alert('内容文字')
+
 this.$dialog.alert({
-  title: "Alert",
-  content: 'Contains only one confirmation button'
+  title: "警告弹窗",
+  content: '只包含一个确定按钮'
 }).then(() => {
-  console.log('You press to confirm')
+  console.log('你点击了确定按钮')
 })
 ```
-Confirm
+确认弹窗
 ```javascript
-this.$dialog.confirm({
-  title: "Confirm",
-  content: 'Includes confirm, cancel button'
-}).then(() => {
-  console.log('You press to confirm')
+this.$dialog.confirm('内容文字').then(() => {
+  console.log('你点击了确定按钮')
 }).catch(() => {
-  console.log('You press to cancel')
+  console.log('你点击了取消按钮')
+})
+
+this.$dialog.confirm({
+  title: "确认弹窗",
+  content: '包含确定、取消按钮'
+}).then(() => {
+  console.log('你点击了确定按钮')
+}).catch(() => {
+  console.log('你点击了取消按钮')
 })
 ```
 
-## Component call
-
+## JS 函数内调用
 ```javascript
-import Dialog from 'Dialog/Dialog.vue'
+import Dialog from './Dialog'
+
+Dialog.alert('Dialog')
+
+Dialog.confirm({
+  title: "确认弹窗",
+  content: '包含确定、取消按钮'
+}).then(() => {
+  console.log('你点击了确定按钮')
+}).catch(() => {
+  console.log('你点击了取消按钮')
+})
 ```
 
+## 组件调用
 ```html
 <Dialog
   v-model="dialogStatus"
+  showCancel
   title="Title"
   content="content"
-  showCancel
   @cancel="componentCallCancel"
   @confirm="componentCallConfrim"
 />
 ```
 
-## Options
+## 配置
 
-| Props       | Description                          | Type    | Default   |
+| Props       | 说明                                 | 类型    | 默认值    |
 | ----------- | ------------------------------------ | ------- | --------- |
-| v-model     | Whether to show popup                | Boolean | -         |
-| icon        | icon path / local (require)          | String  | -         |
-| title       | Title                                | String  | -         |
-| content     | Content.  You can use `\n` to wrap   | String  | -         |
-| showCancel  | Whether to display the cancel button | Boolean | false     |
-| confirmText | Confirm button text                  | String  | `Confirm` |
-| cancelText  | Cancel button text                   | String  | `Cancel`  |
+| v-model     | 是否显示弹窗                         | Boolean | -         |
+| icon        | icon 链接 / 本地路径（require 导入） | String  | -         |
+| title       | 标题                                 | String  | -         |
+| content     | 文本内容。支持`\n`换行               | String  | -         |
+| showCancel  | 是否显示取消按钮                     | Boolean | false     |
+| confirmText | 确认按钮文字                         | String  | `Confirm` |
+| cancelText  | 取消按钮文字                         | String  | `Cancel`  |
+
+## 事件
+
+| Event    | 说明                           |
+| -------- | ------------------------------ |
+| @cancel  | 取消事件。点击遮罩层同样触发。 |
+| @confirm | 确认事件                       |
 
