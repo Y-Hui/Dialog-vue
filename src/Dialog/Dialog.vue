@@ -1,6 +1,6 @@
 <template>
   <transition name="fade">
-    <div class="dialog-wrap" v-if="showDialog" @click="cancel" @touchmove.prevent>
+    <div class="dialog-wrap" v-show="showDialog" @click.self="cancel" @touchmove.prevent>
       <div class="dialog">
         <!-- icon -->
         <img class="dialog__img-icon" v-if="icon" :src="icon" />
@@ -27,8 +27,6 @@
 </template>
 
 <script>
-let timer
-
 export default {
   name: 'Dialog',
   model: {
@@ -63,16 +61,15 @@ export default {
     cancelText: {
       type: String,
       default: 'Cancel'
+    },
+    // 回调函数
+    callback: {
+      type: Function
     }
   },
   data() {
     return {
-      showDialog: false,
-      resolve: Function,
-      reject: Function,
-      promise: Promise,
-      noCatch: false, // this.$dialog.alert
-      functionCall: false // is function call ($dialog)
+      showDialog: false
     }
   },
   mounted() {
@@ -89,50 +86,24 @@ export default {
     }
   },
   methods: {
-    // function call
-    init() {
-      this.functionCall = true
-      this.showDialog = true
-      this.promise = new Promise((resolve, reject) => {
-        this.resolve = resolve
-        this.reject = reject
-      })
-      return this.promise
-    },
     confirm() {
-      if (this.functionCall) {
-        this.showDialog = false
-        this.resolve('confirm')
-        this.remove()
-      } else {
-        this.$emit('confirm')
-      }
+      this.showDialog = false
+      this.$emit('confirm')
+      this.functionCall('confirm')
     },
     cancel() {
-      if (this.functionCall) {
-        this.showDialog = false
-        // Cancel event included by default
-        if (this.noCatch === false) {
-          this.reject('cancel')
-        }
-        this.remove()
-      } else {
-        this.showDialog = false
-        this.$emit('cancel')
-      }
+      this.showDialog = false
+      this.$emit('cancel')
+      this.functionCall('cancel')
     },
-    remove() {
-      timer = setTimeout(() => {
-        this.$destroy()
-        clearTimeout(timer)
-      }, 300)
+    /**
+     * 函数调用触发回调函数
+     */
+    functionCall(action) {
+      if (this.callback) {
+        this.callback(action)
+      }
     }
-  },
-  beforeDestroy() {
-    if (this.functionCall) {
-      document.body.removeChild(this.$el)
-    }
-    clearTimeout(timer)
   }
 }
 </script>

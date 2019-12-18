@@ -27,8 +27,6 @@
 </template>
 
 <script>
-import Dialog from './Dialog/Dialog.vue'
-
 export default {
   name: 'App',
   data() {
@@ -77,14 +75,11 @@ export default {
       this.$dialog.alert({
         title: 'Customize',
         content: 'Button text customization.',
-        buttonText: 'YES'
+        confirmText: 'YES'
       }).then(() => {
         console.log('You press to confirm')
       })
     }
-  },
-  components: {
-    Dialog
   }
 }
 </script>
